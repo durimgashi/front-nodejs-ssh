@@ -31,24 +31,22 @@ app.get('/register.html', function(request, response) {
 app.get('/index.html', function(request, response) {
 	response.sendFile('/index.html',{root: path.join(__dirname, '../ui')});
 });
-
+var jsonResult;
 
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
-	var jsonResult;
+
 	if (username && password) {
 		connection.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
 
-
-				jsonResult = JSON.stringify(results);
-
-				request.session.jsonRes = jsonResult;
+				jsonResult = JSON.parse(JSON.stringify(results));
 
 				request.session.loggedin = true;
 				request.session.username = username;
 				response.redirect('/home');
+				// console.log(jsonResult);
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}
@@ -58,6 +56,32 @@ app.post('/auth', function(request, response) {
 		response.send('Please enter Username and Password!');
 		response.end();
 	}
+});
+
+
+
+app.get('/home', function(request, response) {
+	// if (request.session.loggedin) {
+
+		response.send(jsonResult);
+
+		// response.send(jsonResult);
+		// response.send();
+
+		// response.status(200).json({
+		// 	"firstName" : request.session.firstName,
+		// 	"lastName" : request.session.lastName,
+		// 	"email" : request.session.email,
+		// 	"username" : request.session.username,
+		// 	"password" : request.session.password,
+		// 	"age" : request.session.age,
+		// 	"city" : request.session.city
+		// })
+
+	// } else {
+	// 	response.send('Please login to view this page!');
+	// }
+	response.end();
 });
 
 
@@ -71,27 +95,6 @@ app.post('/register1', function(request, response) {
 	var city = request.body.city;
     connection.query('INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)'
 		, [firstName, lastName, email, username, password, age, city])
-});
-
-
-app.get('/home', function(request, response) {
-	if (request.session.loggedin) {
-		response.send(request.session.jsonRes);
-
-		// response.status(200).json({
-		// 	"firstName" : request.session.firstName,
-		// 	"lastName" : request.session.lastName,
-		// 	"email" : request.session.email,
-		// 	"username" : request.session.username,
-		// 	"password" : request.session.password,
-		// 	"age" : request.session.age,
-		// 	"city" : request.session.city
-		// })
-
-	} else {
-		response.send('Please login to view this page!');
-	}
-	response.end();
 });
 
 
