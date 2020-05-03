@@ -6,10 +6,10 @@ app.use((req, res, next) => {
         firstName: 'fisnik',
         lastName: 'endrin'
     },
-        {
-            firstName: 'durim',
-            lastName: 'gashi'
-        }])
+    {
+        firstName: 'durim',
+        lastName: 'gashi'
+    }])
 });
 
 module.exports = app;

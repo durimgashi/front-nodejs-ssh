@@ -9,7 +9,7 @@ var path = require('path');
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : 'root',
+	password : '',
 	database : 'nodemysql'
 });
 
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
-    response.sendFile('/register.html',{root: path.join(__dirname, '../ui')});
+    response.sendFile('/login.html',{root: path.join(__dirname, '../ui')});
 });
 
 app.post('/auth', function(request, response) {
@@ -55,7 +55,13 @@ app.post('/register1', function(request, response) {
 
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
-		response.send('Welcome back, ' + request.session.username + '!');
+		// response.send('Welcome back, ' + request.session.username + '!');
+
+		response.status(200).json({
+			"username" : request.session.username,
+			"password" : "not gonna show you my pwd"
+		})
+
 	} else {
 		response.send('Please login to view this page!');
 	}
