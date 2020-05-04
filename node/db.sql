@@ -1,4 +1,4 @@
-create database rentcars;
+use rentcars;
 
 create table user(
     userId INTEGER PRIMARY KEY AUTO_INCREMENT not null,
@@ -36,3 +36,7 @@ create table rent(
     FOREIGN KEY (userId) REFERENCES user(userId),
     FOREIGN KEY (carId) REFERENCES car(carId)
     );
+    
+    select * from user;
+    delete from user where userId=2;
+    

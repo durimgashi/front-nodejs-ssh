@@ -9,7 +9,7 @@ let path = require('path');
 let connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : '',
+	password : 'root',
 	database : 'rentcars'
 });
 
@@ -31,6 +31,9 @@ app.get('/register.html', function(request, response) {
 });
 app.get('/index.html', function(request, response) {
 	response.sendFile('/index.html',{root: path.join(__dirname, '../ui')});
+});
+app.get('/cars.html', function(request, response) {
+	response.sendFile('/cars.html',{root: path.join(__dirname, '../ui')});
 });
 
 let jsonResult;
@@ -56,6 +59,7 @@ app.post('/auth', function(request, response) {
 	}
 });
 
+//Sends login data to Java application
 app.get('/home', function(request, response) {
 	// if (request.session.loggedin) {
 		response.send(jsonResult);
@@ -74,7 +78,21 @@ app.post('/register1', function(request, response) {
 	let age = request.body.age;
 	let city = request.body.city;
     connection.query('INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)'
-		, [firstName, lastName, email, username, password, age, city])
+		, [firstName, lastName, email, username, password, age, city], function(error, results, fields) {
+			var obj = {firstName:firstName, lastName:lastName, email:email, username:username,password:password,age:age,city:city};
+			jsonResult = JSON.parse(JSON.stringify(obj));
+			response.redirect('/register1');
+
+		});
+});
+
+app.get('/register1', function(request, response) {
+	// if (request.session.loggedin) {
+		response.send(jsonResult);
+	// } else {
+	// 	response.send('Please login to view this page!');
+	// }
+	response.end();
 });
 
 app.listen(3000);
