@@ -10,7 +10,7 @@ div.col-lg-4{
 }
 div.card{
     background-color: #243447;
-    height: 420px;
+    height: fit-content;
 }
 div.card:hover img{
     opacity: 0.7;

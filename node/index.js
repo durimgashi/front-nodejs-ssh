@@ -35,6 +35,9 @@ app.get('/index.html', function(request, response) {
 app.get('/cars.html', function(request, response) {
 	response.sendFile('/cars.html',{root: path.join(__dirname, '../ui')});
 });
+app.get('/car-view.html', function(request, response) {
+	response.sendFile('/car-view.html',{root: path.join(__dirname, '../ui')});
+});
 
 let jsonResult;
 
