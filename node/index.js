@@ -21,6 +21,7 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+app.use(express.static('..'))
 
 app.get('/login.html', function(request, response) {
     response.sendFile('/login.html',{root: path.join(__dirname, '../ui')});
