@@ -1,3 +1,5 @@
+create database rentcars;
+
 create table user(
     userId INTEGER PRIMARY KEY AUTO_INCREMENT not null,
     firstName varchar(30) not null,
@@ -24,12 +26,13 @@ create table car(
 
 create table rent(
     rentId INTEGER PRIMARY KEY AUTO_INCREMENT not null,
-    userId INTEGER FOREIGN KEY REFERENCES user(userId),
-    carId INTEGER FOREIGN KEY REFERENCES car(carId),
+    userId INTEGER,
+    carId INTEGER,
     date DATETIME NOT NULL,
     returnDate DATETIME not null,
     inCountry BOOL not null,
     insurance BOOL not null,
     deliveryLocation varchar(30),
-    totalPrice REAL not null
-);
+    FOREIGN KEY (userId) REFERENCES user(userId),
+    FOREIGN KEY (carId) REFERENCES car(carId)
+    );
