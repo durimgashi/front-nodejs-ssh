@@ -5,11 +5,12 @@ let express = require('express');
 let session = require('express-session');
 let bodyParser = require('body-parser');
 let path = require('path');
+// const Car = require('car');
 
 let connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : 'root',
+	password : '',
 	database : 'rentcars'
 });
 
@@ -23,21 +24,44 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static('..'))
 
-app.get('/login.html', function(request, response) {
-    response.sendFile('/login.html',{root: path.join(__dirname, '../ui')});
+app.set('views', '../views');
+app.set('view engine', 'ejs');
+
+app.get('/home', function(request, response) {
+	// response.sendFile('/index.ejs',{root: path.join(__dirname, '../views')});
+	response.render('index');
 });
-app.get('/register.html', function(request, response) {
-	response.sendFile('/register.html',{root: path.join(__dirname, '../ui')});
+app.get('/login', function(request, response) {
+    // response.sendFile('/login.ejs',{root: path.join(__dirname, '../views')});
+	response.render('login');
 });
-app.get('/index.html', function(request, response) {
-	response.sendFile('/index.html',{root: path.join(__dirname, '../ui')});
+app.get('/register', function(request, response) {
+	// response.sendFile('/register.ejs',{root: path.join(__dirname, '../views')});
+	response.render('register');
 });
-app.get('/cars.html', function(request, response) {
-	response.sendFile('/cars.html',{root: path.join(__dirname, '../ui')});
+app.get('/cars', function(request, response) {
+	// response.render('cars');
+	connection.query('SELECT * FROM car', function(error, carResults, fields) {
+		// jsonCarResult = JSON.parse(JSON.stringify(carResults));
+		// response.end();
+		response.render('cars',{data:carResults});
+	});
 });
-app.get('/car-view.html', function(request, response) {
-	response.sendFile('/car-view.html',{root: path.join(__dirname, '../ui')});
+app.get('/cars/:carId', function(request, response) {
+	let carId = request.params.carId;
+	// connection.query('SELECT carId, brand, type, fuel, year, price, color, numDoor, description, picturePath FROM car WHERE carId = ?', [carId], function(error, results, fields) {
+	connection.query('SELECT * FROM car WHERE carId = ?', [carId], function(error, results, fields) {
+		// if (!results.length) {
+		// 	response.send('Error loading car!');
+		// } else {
+		// 	// jsonResult = JSON.parse(JSON.stringify(results));
+
+			response.render('car-view', {car:results});
+		// }
+		response.end();
+	});
 });
+
 
 let jsonResult;
 
@@ -46,18 +70,19 @@ app.post('/auth', function(request, response) {
 	let password = request.body.password;
 	if (username && password) {
 		connection.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-			if (results.length > 0) {
+			if (!results.length) {
+				response.send('Incorrect Username and/or Password!');
+			} else {
 				jsonResult = JSON.parse(JSON.stringify(results));
 				request.session.loggedin = true;
 				request.session.username = username;
 				response.redirect('/home');
-			} else {
-				response.send('Incorrect Username and/or Password!');
 			}
 			response.end();
 		});
 	} else {
 		response.send('Please enter Username and Password!');
+		response.send('FUCK YOU!');
 		response.end();
 	}
 });
@@ -97,5 +122,16 @@ app.get('/register1', function(request, response) {
 	// }
 	response.end();
 });
+
+let jsonCarResult;
+// app.use('/cars', function(request, response) {
+//
+// 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
+// 			// jsonCarResult = JSON.parse(JSON.stringify(carResults));
+// 			// response.end();
+// 			response.render('cars',{data:carResults});
+// 		});
+// });
+
 
 app.listen(3000);
