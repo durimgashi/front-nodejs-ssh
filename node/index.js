@@ -47,21 +47,13 @@ app.get('/cars', function(request, response) {
 		response.render('cars',{data:carResults});
 	});
 });
-app.get('/cars/:carId', function(request, response) {
+app.use('/cars/:carId', function(request, response) {
 	let carId = request.params.carId;
-	// connection.query('SELECT carId, brand, type, fuel, year, price, color, numDoor, description, picturePath FROM car WHERE carId = ?', [carId], function(error, results, fields) {
 	connection.query('SELECT * FROM car WHERE carId = ?', [carId], function(error, results, fields) {
-		// if (!results.length) {
-		// 	response.send('Error loading car!');
-		// } else {
-		// 	// jsonResult = JSON.parse(JSON.stringify(results));
-
-			response.render('car-view', {car:results});
-		// }
+		response.render('car-view', {car:results});
 		response.end();
 	});
 });
-
 
 let jsonResult;
 
