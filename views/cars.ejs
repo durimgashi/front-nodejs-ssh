@@ -18,153 +18,37 @@
 
 </head>
 <body style="padding-top: 56px;">
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html"></a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="cars.ejs">CARS</a></li>
-                <li><a href="register.html">REGISTER</a></li>
-                <li><a href="login.html">LOGIN</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<%- include('header.ejs') %>
 
 <div class="jumbotron text-center">
     <h1>Our cars</h1>
     <p>More than 10 cars available</p>
 </div>
 
-
 <div class="row">
 
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/tesla.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Tesla Model X</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+    <% for(var i = 0; i< data.length; i++) { %>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <a href="/cars/<%= data[i].carId %>"><img class="card-img-top" src="<%= data[i].picturePath %>" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                    <a href="#"><%= data[i].brand %></a>
+                    </h4>
+                    <h5>Type: <%= data[i].type %></h5>
+                    <h5>Doors: <%= data[i].numDoor %></h5>
+                    <h5>Fuel: <%= data[i].fuel %></h5>
+                    <h5>Year: <%= data[i].year %></h5>
+                    <h5>$<%= data[i].price %></h5>
+                    <p class="card-text"><%= data[i].description %></p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                </div>
             </div>
         </div>
-    </div>
+    <% } %>
 
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/mercedes.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Mercedes</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/greenwood.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Sweet's Car</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/tesla.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Item Four</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/tesla.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Item Five</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="car-view.html"><img class="card-img-top" src="../images/tesla.jpg" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">Item Six</a>
-                </h4>
-                <h5>Type: Model X</h5>
-                <h5>Doors: 4</h5>
-                <h5>Fuel: Electric</h5>
-                <h5>Year: 2018</h5>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-        </div>
-    </div>
 </div>
 
 <footer class="container-fluid text-center">

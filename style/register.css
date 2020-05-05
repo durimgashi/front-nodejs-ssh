@@ -56,4 +56,8 @@ input{
 }
 button{
 	margin-top: 10px;
+	background-color: #00acee;
+}
+button:hover{
+	background-color: #00acee;
 }

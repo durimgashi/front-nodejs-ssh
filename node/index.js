@@ -42,9 +42,7 @@ app.get('/register', function(request, response) {
 app.get('/cars', function(request, response) {
 	// response.render('cars');
 	connection.query('SELECT * FROM car', function(error, carResults, fields) {
-		// jsonCarResult = JSON.parse(JSON.stringify(carResults));
-		// response.end();
-		response.render('cars',{data:carResults});
+		response.render('cars', {data:carResults});
 	});
 });
 app.use('/cars/:carId', function(request, response) {

@@ -13,98 +13,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" type="text/css" href="../style/main.css">
-
-    <style>
-        img{
-            height: 100%;
-            width: 100%;
-        }
-        div.row{
-            width: 80%;
-            height: 100%;
-            margin: 0 auto;
-            margin-top: 140px;
-        }
-        a.car-title{
-            font-size: 50px;
-            text-decoration: none;
-        }
-        a.car-title:hover{
-            text-decoration: none;
-        }
-        h5{
-            font-size: 20px;
-        }
-        h5.car-price{
-            margin-top: 30px;
-        }
-        button.rent-button{
-            background-color: #00acee;
-            color: #FFFFFF;
-            padding: 3px 30px;
-            border: none;
-            border-radius: 5px;
-        }
-        div.card{
-            background-color: #243447;
-            padding: 20px 20px;
-        }
-        div.card-body{
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        div.item-image-container{
-            padding: 0px 10px 0px 0px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../style/car-view.css">
 
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">Rent a car</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="cars.ejs">CARS</a></li>
-                <li><a href="register.html">REGISTER</a></li>
-                <li><a href="login.html">LOGIN</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<%- include('header.ejs') %>
 
+<div class="row" style="width: 1000px">
+    <div class="col-lg-12">
+        <div class="card mt-4">
+            <% for(var i = 0; i< car.length; i++) { %>
+            <img class="card-img-top img-fluid" src="<%= car[i].picturePath %>" alt="">
+            <div class="card-body">
+                <h3 class="card-title"><%= car[i].brand %> <%= car[i].type %></h3>
 
-<div class="card h-100 row">
-    <div class="item-image-container col-lg-6">
-        <a href="#"><img class="card-img-top" src="../images/tesla.jpg" alt=""></a>
-    </div>
-    <div class="card-body col-lg-6">
-        <h4 class="car-title-containter">
-            <a href="#" class="car-title">Tesla Model X</a>
-        </h4>
-        <h5>Type: Model X</h5>
-        <h5>Doors: 4</h5>
-        <h5>Fuel: Electric</h5>
-        <h5>Year: 2018</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-        <h5 class="car-price">Price: $24.99</h5>
-    </div>
-    <div class="card-footer col-lg-6">
-        <form action="" method="post">
-            <label for="rent-date">Rent date:</label>
-            <input type="date" id="rent-date">
-            <label for="return-date">Return date:</label>
-            <input type="date" id="return-date">
-            <button class="rent-button">RENT</button>
-        </form>
+                <p class="card-text">Fuel: <strong><%= car[i].fuel %></strong></p>
+                <p class="card-text">Year of production: <strong><%= car[i].year %></strong></p>
+                <p class="card-text">Color: <strong><%= car[i].color %></strong></p>
+                <p class="card-text">Doors: <strong><%= car[i].numDoor %></strong></p>
+                <p class="card-desc"><%= car[i].description %></p>
+                <h3>$<%= car[i].price %>.00</h3>
+            </div>
+            <div class="card-footer">
+                <form action="" method="post">
+                    <label for="rent-date">Rent date:</label>
+                    <input type="date" id="rent-date">
+                    <label for="return-date">Return date:</label>
+                    <input type="date" id="return-date">
+                    <button class="rent-button">RENT</button>
+                </form>
+            </div>
+            <%}%>
+        </div>
     </div>
 </div>
 </body>
