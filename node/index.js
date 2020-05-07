@@ -1,20 +1,18 @@
 module.exports = function(app, passport, connection){
 	app.get('/', function (request, response) {
-		response.render('index.ejs');
+		response.render('index.ejs', { user: request.user });
 	});
 
-	// app.get('/register', function(request, response) {
-	// response.render('register');
-	// });
-	app.get('/cars', function(request, response) {
+
+	app.get('/cars', isLoggedIn, function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
-			response.render('cars', {data:carResults});
+			response.render('cars', {data:carResults, user: request.user});
 			// response.redirect('/cars')
 			let json = JSON.parse(JSON.stringify(carResults));
 				// request.send(json);
-
 		});
 	});
+
 
 	app.get('/carsjava', function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
@@ -35,6 +33,11 @@ module.exports = function(app, passport, connection){
 		response.render('login', { message : request.flash('loginMessage'), test : "test"});
 	});
 
+	app.get('/logout', function (request, response) {
+		request.logout();
+		response.redirect('/');
+	})
+
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/cars',
 		failureRedirect: '/login',
@@ -54,11 +57,6 @@ module.exports = function(app, passport, connection){
 		response.render('register', { message : request.flash('signupMessage') , test: "test"});
 	});
 
-	// app.post('/register', passport.authenticate('local-signup', {
-	// 	successRedirect: '/login',
-	// 	failureRedirec: '/register',
-	// 	failureFlash: true
-	// }));
 	app.post('/register', function(request, response) {
 		let firstName = request.body.firstName;
 		let lastName = request.body.lastName;
@@ -87,7 +85,15 @@ function isLoggedIn(request, response, next) {
 	if (request.isAuthenticated()){
 		return next();
 	}
-	response.redirect('/');
+	// response.redirect('/');
+	response.render('ikatje');
+}
+
+function logd(request, response, next) {
+	if (request.isAuthenticated()){
+		return next();
+	}
+	return true
 }
 
 // 'use strict'

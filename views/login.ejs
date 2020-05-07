@@ -23,9 +23,9 @@
     </div>
     <div class="col-sm-4 cols column-two">
         <div class="card">
-            <a href="/home"><img src="../images/logo-fed.png" style="width: 100%"></a>
+            <a href="/"><img src="../images/logo-fed.png" style="width: 100%"></a>
             <div class="card-body">
-                <form class="form-horizontal" method="post" action="/auth">
+                <form class="form-horizontal" method="post" action="/login">
                     <div class="form-group">
                         <label for="username" class="cols-sm-2 control-label">Username</label>
                         <input type="text" class="form-control" name="username" id="username" placeholder="Enter your Username" />
@@ -36,9 +36,13 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Log in</button>
-                        <p style="color: #FFFFFF; margin-top: 10px">Don't have an account? <a href="/register">Register</a></p>
+                        <p style="color: #FFFFFF; margin-top: 5px">Don't have an account? <a href="/register">Register</a></p>
+                        <% if (message.length > 0) {%>
+                            <p style="color: #C51F5D; width: fit-content"><%= message %></p>
+                        <% }%>
                     </div>
                 </form>
+
             </div>
 
         </div>
