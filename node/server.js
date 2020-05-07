@@ -10,6 +10,9 @@ let port = process.env.port || 3000;
 let path = require('path');
 let bcrypt = require('bcryptjs');
 
+////----- PJESA E RECOVERY -------/////
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 var mysql = require('mysql');
 var dbconfig = require('./database/database');
@@ -41,7 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-require('./index.js')(app, passport, connection, bcrypt);
+require('./index.js')(app, passport, connection, nodemailer);
 
 app.listen(3000);
 console.log("Port: " + port);

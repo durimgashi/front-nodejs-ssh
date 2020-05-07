@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+
+    <style>
+        div.reset-form{
+            width: 30%;
+            height: 100%;
+            margin: 0 auto;
+            margin-top: 10%;
+            padding: 20px;
+            background-color: #243447;
+        }
+        button.btn{
+            width: 100%;
+            margin-top: 20px;
+            background-color: #00acee;
+            color: #FFFFFF;
+        }
+        button.btn:hover{
+            color: #FFFFFF;
+        }
+        img{
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        label{
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+
+<%- include('header.ejs') %>
+
+
+<div class="reset-form">
+    <img src="../images/logo-fed.png" alt="">
+    <form method="POST" action="/code">
+        <label for="code">Code:</label>
+        <input type="text" name="code" id="code" class="form-control" placeholder="Enter the code from the email">
+        <label for="newPassword">New password:</label>
+        <input type="password" name="newPassword" id="password" class="form-control" placeholder="Minimum 8 characters long">
+        <label for="confirmNewPassword">Confirm password:</label>
+        <input type="password" name="confirmNewPassword" id="password" class="form-control" placeholder="Repeat password">
+        <button class="btn primary-btn ">Submit</button>
+    </form>
+</div>
+
+
+</body>
+</html>

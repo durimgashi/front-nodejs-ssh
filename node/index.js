@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-module.exports = function(app, passport, connection, bcrypt){
+module.exports = function(app, passport, connection, nodemailer){
 	app.get('/', function (request, response) {
 		response.render('index.ejs', { user: request.user });
 	});
@@ -7,9 +7,6 @@ module.exports = function(app, passport, connection, bcrypt){
 	app.get('/cars', isLoggedIn, function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
 			response.render('cars', {data:carResults, user: request.user});
-			// response.redirect('/cars')
-			// let json = JSON.parse(JSON.stringify(carResults));
-			// request.send(json);
 		});
 	});
 
@@ -39,12 +36,48 @@ module.exports = function(app, passport, connection, bcrypt){
 		let numDays = (returnD - rentD) / (24 * 3600 * 1000);
 
 		connection.query('SELECT * FROM car WHERE carId = ? ;', [carId], function(error, carRes, fields) {
-			connection.query('insert into rent (userId, carId, date, returnDate, inCountry, pickupLocation, totalPrice) values (?, ?, ?, ?, ?, ?, ?);'
+			connection.query('INSERT INTO rent (userId, carId, date, returnDate, inCountry, pickupLocation, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?);'
 				, [request.user.userId, carRes[0].carId, rentDate, returnDate, true, pickupLocation, numDays*carRes[0].price], function(error, results, fields) {
-				console.log(error);
+				console.log("EMAILLLLLLL: " +  request.user.email);
 				if (!error)
+
+					// let userEmail = request.user.email;
+
+					// Step 1
+					transporter = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							user: process.env.EMAIL || 'noreply.fedauto@gmail.com', // TODO: your gmail account
+							pass: process.env.PASSWORD || 'Rentcar123' // TODO: your gmail password
+						}
+					});
+
+					// Step 2
+					let mailOptions = {
+						from: 'noreply.fedauto@gmail.com',
+						to: request.user.email,
+						subject: 'Rent - FEDAuto',
+						text: 'Congratulations you just got a car. Bofsh ndeshje'
+					};
+
+					// Step 3
+					transporter.sendMail(mailOptions, (err, data) => {
+						if (err) {
+							console.log('Error occurs', err);
+						}
+						console.log('Email sent!!!');
+						// response.redirect('/code');
+						// response.redirect('/');
+					});
 					response.redirect('/thankyou');
 				});
+		});
+	});
+
+	app.get('/rentjava', function (request, response) {
+		connection.query('SELECT * FROM rent ;', function(error, rentResult, fields) {
+			let jsonRent = JSON.parse(JSON.stringify(rentResult));
+			response.send(jsonRent);
 		});
 	});
 
@@ -100,6 +133,72 @@ module.exports = function(app, passport, connection, bcrypt){
 		request.logout();
 		response.redirect('/');
 	});
+
+	let recoveryEmail;
+	app.use('/reset', function (request, response) {
+		response.render('reset.ejs', { user: request.user });
+		recoveryEmail = request.body.forgotEmail;
+		console.log(recoveryEmail);
+		console.log("test text");
+
+		// Step 1
+		let transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: process.env.EMAIL || 'noreply.fedauto@gmail.com', // TODO: your gmail account
+				pass: process.env.PASSWORD || 'Rentcar123' // TODO: your gmail password
+			}
+		});
+
+		function between(min, max) {
+			return Math.floor(
+				Math.random() * (max - min) + min
+			)
+		}
+		randomCode = between(100000, 999999);
+		console.log(randomCode);
+
+		// Step 2
+		let mailOptions = {
+			from: 'noreply.fedauto@gmail.com', // TODO: email sender
+			to: recoveryEmail, // TODO: email receiver
+			subject: 'Password Recovery - FEDAuto',
+			text: 'Your password recovery code is: ' + randomCode
+		};
+
+		// Step 3
+		transporter.sendMail(mailOptions, (err, data) => {
+			if (err) {
+				console.log('Error occurs', err);
+			}
+			console.log('Email sent!!!');
+			// response.redirect('/code');
+			response.redirect('/');
+		});
+
+	});
+
+	app.post('/code', function(request, response) {
+		// response.sendFile('/reset.html',{root: path.join(__dirname, '../ui')});
+		let recoveryCode = request.body.code;
+		let newPassword = request.body.newPassword;
+		let confirmPassword = request.body.confirmNewPassword;
+		console.log("Confirm password: " + confirmPassword);
+		console.log("New password: " + newPassword);
+		console.log("Email: " + recoveryEmail);
+		if(recoveryCode == randomCode) {
+			console.log("Kodi eshte i njejte");
+			if (newPassword == confirmPassword){
+				changePassword(newPassword, recoveryEmail, connection);
+				response.redirect('/login');
+			}else{
+				console.log("Passwords do not match");
+			}
+		}else{
+			console.log("Kodi nuk eshte i njejte");
+		}
+	});
+
 }
 
 function isLoggedIn(request, response, next) {
@@ -109,12 +208,6 @@ function isLoggedIn(request, response, next) {
 	response.render('ikatje');
 }
 
-function logd(request, response, next) {
-	if (request.isAuthenticated()){
-		return next();
-	}
-	return true
-}
 
 function hash(password, salt){
 	// var hash = crypto.createHmac('sha512', salt);
@@ -123,7 +216,17 @@ function hash(password, salt){
 	var value = hash.digest('hex');
 	return value;
 }
-//
+
+function changePassword(password, email, connection){
+	connection.connect(function(err) {
+		if (err) throw err;
+		connection.query("UPDATE user SET password = ? WHERE email = ?", [hash(password, "10"), email], function (err, result) {
+			if (err) throw err;
+			console.log(result.affectedRows + " record(s) updated");
+		});
+	});
+}
+
 // function validateEmail(email) {
 // 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 // 	return re.test(String(email).toLowerCase());
