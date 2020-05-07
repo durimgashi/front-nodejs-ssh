@@ -9,20 +9,13 @@
             </button>
             <a class="navbar-brand" href="/" style="padding: 2px">
                 <img src="../images/logo-fed.png" style="height: 40px;width: 160px">
-<!--                <ul class="nav navbar-nav navbar-right">-->
-                    <%if (user){%>
-
-                    <%}%>
-<!--                </ul>-->
             </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
 
-
-
                 <% if (user) {%>
-                    <li><a href="" style="color: #C51F5D !important; text-decoration: none"><%= user.username %></a></li>
+                    <li><a href="" style="color: #C51F5D !important; text-decoration: none" class="username"><%= user.username %></a></li>
                     <li><a href="/cars">CARS</a></li>
                     <li><a href="/logout" >LOG OUT</a></li>
                 <% } else {%>
@@ -33,8 +26,6 @@
         </div>
     </div>
 </nav>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">

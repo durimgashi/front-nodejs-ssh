@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Theme Made By www.w3schools.com -->
     <title>Rent Cars</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,35 +13,51 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" type="text/css" href="../style/main.css">
     <link rel="stylesheet" type="text/css" href="../style/car-view.css">
-
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
 <%- include('header.ejs') %>
 
-<div class="row" style="width: 1000px">
+<div class="row" style="width: 90%">
     <div class="col-lg-12">
         <div class="card mt-4">
             <% for(var i = 0; i< car.length; i++) { %>
-            <img class="card-img-top img-fluid" src="<%= car[i].picturePath %>" alt="">
-            <div class="card-body">
-                <h3 class="card-title"><%= car[i].brand %> <%= car[i].type %></h3>
-
-                <p class="card-text">Fuel: <strong><%= car[i].fuel %></strong></p>
-                <p class="card-text">Year of production: <strong><%= car[i].year %></strong></p>
-                <p class="card-text">Color: <strong><%= car[i].color %></strong></p>
-                <p class="card-text">Doors: <strong><%= car[i].numDoor %></strong></p>
-                <p class="card-desc"><%= car[i].description %></p>
-                <h3>$<%= car[i].price %>.00</h3>
-            </div>
-            <div class="card-footer">
-                <form action="" method="post">
-                    <label for="rent-date">Rent date:</label>
-                    <input type="date" id="rent-date">
-                    <label for="return-date">Return date:</label>
-                    <input type="date" id="return-date">
-                    <button class="rent-button">RENT</button>
-                </form>
+            <div class="card-body row">
+                <div class="col-lg-6 box">
+                    <img class="card-img-top img-fluid" src="<%= car[i].picturePath %>" alt="">
+                </div>
+                <div class="col-lg-6 box">
+                    <h3 class="card-title"><%= car[i].brand %> <%= car[i].type %></h3>
+                    <p class="card-text">Fuel: <strong><%= car[i].fuel %></strong></p>
+                    <p class="card-text">Year of production: <strong><%= car[i].year %></strong></p>
+                    <p class="card-text">Color: <strong><%= car[i].color %></strong></p>
+                    <p class="card-text">Doors: <strong><%= car[i].numDoor %></strong></p>
+                    <p class="card-text">Insurance: <strong><%= car[i].insurance %></strong></p>
+                    <p class="card-text">Price: <strong>$<%= car[i].price %>.00</strong></p>
+                </div>
+                <div class="col-lg-12 desc-container">
+                    <p class="card-desc"><%= car[i].description %></p>
+                </div>
+                <div class="card-footer col-lg-12">
+                    <form action="/rent" method="post">
+                        <input type="text" style="visibility: hidden; display: none" value="<%= car[i].carId %>" name="dumbassCarId">
+                        <label for="rent-date">Rent date:</label>
+                        <input type="date" id="rent-date" name="rentDate" required>
+                        <label for="return-date">Return date:</label>
+                        <input type="date" id="return-date" name="returnDate" required>
+                        <label for="pickupLocation">Pickup location: </label>
+                        <select id="pickupLocation" name="pickupLocation" required>
+                            <option value="Airport">Airport Office</option>
+                            <option value="Prishtina Office">Prishtina Office</option>
+                            <option value="Tirana Office">Tirana Office</option>
+                        </select>
+                        <label>
+                            In Country:
+                            <input type="checkbox" name="inCountry">
+                        </label>
+                        <button class="rent-button">RENT</button>
+                    </form>
+                </div>
             </div>
             <%}%>
         </div>

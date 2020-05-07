@@ -4,16 +4,14 @@ module.exports = function(app, passport, connection, bcrypt){
 		response.render('index.ejs', { user: request.user });
 	});
 
-
 	app.get('/cars', isLoggedIn, function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
 			response.render('cars', {data:carResults, user: request.user});
 			// response.redirect('/cars')
-			let json = JSON.parse(JSON.stringify(carResults));
-				// request.send(json);
+			// let json = JSON.parse(JSON.stringify(carResults));
+			// request.send(json);
 		});
 	});
-
 
 	app.get('/carsjava', function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
@@ -25,9 +23,33 @@ module.exports = function(app, passport, connection, bcrypt){
 	app.use('/cars/:carId', function(request, response) {
 		let carId = request.params.carId;
 		connection.query('SELECT * FROM car WHERE carId = ?', [carId], function(error, results, fields) {
-			response.render('car-view', {car:results});
-			response.end();
+			response.render('car-view', {car:results, user: request.user});
 		});
+	});
+
+	app.post('/rent', function(request, response) {
+
+		let carId = request.body.dumbassCarId;
+		let rentDate = request.body.rentDate;
+		let returnDate = request.body.returnDate;
+		let pickupLocation = request.body.pickupLocation;
+
+		let rentD = new Date(rentDate);
+		let returnD = new Date(returnDate);
+		let numDays = (returnD - rentD) / (24 * 3600 * 1000);
+
+		connection.query('SELECT * FROM car WHERE carId = ? ;', [carId], function(error, carRes, fields) {
+			connection.query('insert into rent (userId, carId, date, returnDate, inCountry, pickupLocation, totalPrice) values (?, ?, ?, ?, ?, ?, ?);'
+				, [request.user.userId, carRes[0].carId, rentDate, returnDate, true, pickupLocation, numDays*carRes[0].price], function(error, results, fields) {
+				console.log(error);
+				if (!error)
+					response.redirect('/thankyou');
+				});
+		});
+	});
+
+	app.get('/thankyou', function (request, response) {
+		response.render('thankyou', { user: request.user });
 	});
 
 	app.get('/login', function (request, response) {
@@ -64,16 +86,12 @@ module.exports = function(app, passport, connection, bcrypt){
 		let email = request.body.email;
 		let username = request.body.username;
 		let password = request.body.password;
-		// let password = bcrypt.hashSync(request.body.password, null, null);
 		let age = request.body.age;
 		let city = request.body.city;
 		connection.query('INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)'
 			, [firstName, lastName, username, email, hash(password, "test"), age, city], function(error, results, fields) {
 				if (error)
 					console.log("FUCKING ERROR:: " +  error);
-				// var obj = {firstName:firstName, lastName:lastName, email:email, username:username,password:password,age:age,city:city};
-				// var jsonResult = JSON.parse(JSON.stringify(obj));
-				// response.send(jsonResult);
 				response.redirect('/login');
 			});
 	});
@@ -82,14 +100,12 @@ module.exports = function(app, passport, connection, bcrypt){
 		request.logout();
 		response.redirect('/');
 	});
-
 }
 
 function isLoggedIn(request, response, next) {
 	if (request.isAuthenticated()){
 		return next();
 	}
-	// response.redirect('/');
 	response.render('ikatje');
 }
 

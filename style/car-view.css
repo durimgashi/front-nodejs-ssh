@@ -1,30 +1,35 @@
 img{
-    height: 100%;
+    /*height: 100%;*/
     width: 100%;
+}
+div.col-lg-12{
+    /*padding: 10px 0px;*/
+    /*padding-left: 0px;*/
+    /*padding-right: 0px;*/
 }
 div.row{
     width: 100%;
     height: 100%;
     margin: 0 auto;
-    margin-top: 140px;
-    margin-bottom: 140px;
+    margin-top: 125px;
+    /*margin-bottom: 140px;*/
 }
 h3.card-title{
-    font-size: 35px;
+    font-size: 60px;
     color: #00acee;
+    margin-top: 0px;
 }
-/*h5{*/
-/*    font-size: 20px;*/
-/*}*/
-/*h5.car-price{*/
-/*    margin-top: 30px;*/
-/*}*/
 button.rent-button{
     background-color: #00acee;
     color: #FFFFFF;
     padding: 3px 30px;
     border: none;
-    border-radius: 2px;
+    border-radius: 10px;
+    width: 10%;
+    float: right;
+}
+.desc-container{
+    margin-top: 30px;
 }
 div.card{
     background-color: #243447;
@@ -38,9 +43,20 @@ label{
     color: #FFFFFF;
 }
 p.card-text{
+    font-size: 25px;
     margin-bottom: 10px;
     color: #818181;
 }
 strong, .card-desc{
     color: #FFFFFF;
+}
+
+select{
+    padding: 5px 5px;
+    border-radius: 10px;
+}
+input{
+    padding: 2px 10px;
+    border-radius: 10px;
+    border: none;
 }

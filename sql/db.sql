@@ -20,6 +20,7 @@ create table car(
     price real not null,
     color varchar(30) not null,
     numDoor INTEGER not null,
+    insurance varchar(30) not null,
     description varchar(512) not null,
     picturePath varchar(256)
 );
@@ -31,8 +32,8 @@ create table rent(
     date DATETIME NOT NULL,
     returnDate DATETIME not null,
     inCountry BOOL not null,
-    insurance BOOL not null,
-    deliveryLocation varchar(30),
+    pickupLocation varchar(30),
+    totalPrice REAL,
     FOREIGN KEY (userId) REFERENCES user(userId),
     FOREIGN KEY (carId) REFERENCES car(carId)
 );
