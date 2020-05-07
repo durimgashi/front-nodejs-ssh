@@ -1,7 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 
 var mysql = require('mysql');
-var bcrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
 var dbconfig = require('./database/database');
 var connection = mysql.createConnection(dbconfig.connection);
 
@@ -49,13 +49,24 @@ module.exports = function (passport) {
             passReqToCallback: true
         },
         function (req, username, password, done) {
-            connection.query("SELECT * FROM user WHERE username = ? and password = ?", [username, password], function (err, rows) {
+            connection.query("SELECT * FROM user WHERE username = ? and password = ?", [username, hash(password, "test")], function (err, rows) {
                 if (err)
                     return done(err);
-                if (!rows.length)
+                if (rows.length < 1)
                     return done(null, false, req.flash('loginMessage', "No user found"));
+                // if (!bcrypt.compareSync(password, rows[0].password))
+                //     return done(null, false, req.flash('loginMessage', "Wrong password"));
                 return done(null, rows[0]);
             });
+            function hash(password, salt){
+                // var hash = crypto.createHmac('sha512', salt);
+                var hash = crypto.createHash('sha512');
+                hash.update(password);
+                var value = hash.digest('hex');
+                return value;
+            }
         })
+
+
     );
 };
