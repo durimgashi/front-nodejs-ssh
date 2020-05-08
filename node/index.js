@@ -25,12 +25,10 @@ module.exports = function(app, passport, connection, nodemailer){
 	});
 
 	app.post('/rent', function(request, response) {
-
 		let carId = request.body.dumbassCarId;
 		let rentDate = request.body.rentDate;
 		let returnDate = request.body.returnDate;
 		let pickupLocation = request.body.pickupLocation;
-
 		let rentD = new Date(rentDate);
 		let returnD = new Date(returnDate);
 		let numDays = (returnD - rentD) / (24 * 3600 * 1000);
@@ -40,10 +38,6 @@ module.exports = function(app, passport, connection, nodemailer){
 				, [request.user.userId, carRes[0].carId, rentDate, returnDate, true, pickupLocation, numDays*carRes[0].price], function(error, results, fields) {
 				console.log("EMAILLLLLLL: " +  request.user.email);
 				if (!error)
-
-					// let userEmail = request.user.email;
-
-					// Step 1
 					transporter = nodemailer.createTransport({
 						service: 'gmail',
 						auth: {
@@ -52,22 +46,18 @@ module.exports = function(app, passport, connection, nodemailer){
 						}
 					});
 
-					// Step 2
 					let mailOptions = {
 						from: 'noreply.fedauto@gmail.com',
 						to: request.user.email,
 						subject: 'Rent - FEDAuto',
-						text: 'Congratulations you just got a car. Bofsh ndeshje'
+						text: 'Congratulations you just got a car.'
 					};
 
-					// Step 3
 					transporter.sendMail(mailOptions, (err, data) => {
 						if (err) {
 							console.log('Error occurs', err);
 						}
 						console.log('Email sent!!!');
-						// response.redirect('/code');
-						// response.redirect('/');
 					});
 					response.redirect('/thankyou');
 				});
@@ -141,7 +131,6 @@ module.exports = function(app, passport, connection, nodemailer){
 		console.log(recoveryEmail);
 		console.log("test text");
 
-		// Step 1
 		let transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
@@ -158,7 +147,6 @@ module.exports = function(app, passport, connection, nodemailer){
 		randomCode = between(100000, 999999);
 		console.log(randomCode);
 
-		// Step 2
 		let mailOptions = {
 			from: 'noreply.fedauto@gmail.com', // TODO: email sender
 			to: recoveryEmail, // TODO: email receiver
@@ -166,20 +154,17 @@ module.exports = function(app, passport, connection, nodemailer){
 			text: 'Your password recovery code is: ' + randomCode
 		};
 
-		// Step 3
 		transporter.sendMail(mailOptions, (err, data) => {
 			if (err) {
 				console.log('Error occurs', err);
 			}
 			console.log('Email sent!!!');
-			// response.redirect('/code');
 			response.redirect('/');
 		});
 
 	});
 
 	app.post('/code', function(request, response) {
-		// response.sendFile('/reset.html',{root: path.join(__dirname, '../ui')});
 		let recoveryCode = request.body.code;
 		let newPassword = request.body.newPassword;
 		let confirmPassword = request.body.confirmNewPassword;
@@ -198,7 +183,6 @@ module.exports = function(app, passport, connection, nodemailer){
 			console.log("Kodi nuk eshte i njejte");
 		}
 	});
-
 }
 
 function isLoggedIn(request, response, next) {
@@ -208,9 +192,7 @@ function isLoggedIn(request, response, next) {
 	response.render('ikatje');
 }
 
-
 function hash(password, salt){
-	// var hash = crypto.createHmac('sha512', salt);
 	var hash = crypto.createHash('sha512');
 	hash.update(password);
 	var value = hash.digest('hex');
