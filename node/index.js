@@ -83,7 +83,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	})
-
+	var loginJsonResult;
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/cars',
 		failureRedirect: '/login',
@@ -91,12 +91,31 @@ module.exports = function(app, passport, connection, nodemailer){
 		failureFlash: true
 		}), function (request, response) {
 			request.session.user = request.user.username;
+			// loginJsonResult = [{
+			// 	userId: request.user.userId,
+			// 	firstName: request.user.firstName,
+			// 	lastName: request.user.lastName
+			// }];
+			console.log(request.user.userId);
+			console.log(request.user.firstName);
+			//console.log(loginJsonResult);
 			if (request.body.remember){
 				request.session.cookie.maxAge = 1000 * 6 * 3;
-			}else{
-				request.session.cookie.maxAge = false;
+				
+			}
+			else{
+					request.session.cookie.maxAge = false;
 			}
 			response.redirect('/');
+
+			console.log(request.user.userId);
+	
+		
+	});
+
+	app.get('/loginJava', function(request, response){
+		
+		//response.send(JSON.parse(JSON.stringify(loginJsonResult)));
 	});
 
 	app.get('/register', function (request, response) {
@@ -115,8 +134,29 @@ module.exports = function(app, passport, connection, nodemailer){
 			, [firstName, lastName, username, email, hash(password, "test"), age, city], function(error, results, fields) {
 				if (error)
 					console.log("FUCKING ERROR:: " +  error);
-				response.redirect('/login');
+				else 
+				{
+					var obj = {firstName:firstName, lastName:lastName, email:email, username:username,age:age,city:city};
+					jsonResult = JSON.parse(JSON.stringify(obj));
+					response.redirect('/login');
+					
+				}
+				
+
 			});
+	
+		app.get('/registerJava', function(request, response) {
+				// if (request.session.loggedin) {
+					response.send(jsonResult);
+				// } else {
+				// 	response.send('Please login to view this page!');
+				// }
+				response.end();
+		});
+
+		
+
+
 	});
 
 	app.get('/logout', function (request, response) {

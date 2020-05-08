@@ -56,6 +56,7 @@ module.exports = function (passport) {
                     return done(null, false, req.flash('loginMessage', "No user found"));
                 // if (!bcrypt.compareSync(password, rows[0].password))
                 //     return done(null, false, req.flash('loginMessage', "Wrong password"));
+
                 return done(null, rows[0]);
             });
             function hash(password, salt){
@@ -65,6 +66,8 @@ module.exports = function (passport) {
                 var value = hash.digest('hex');
                 return value;
             }
+
+            
         })
 
 
