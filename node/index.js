@@ -34,8 +34,9 @@ module.exports = function(app, passport, connection, nodemailer){
 		let numDays = (returnD - rentD) / (24 * 3600 * 1000);
 
 		connection.query('SELECT * FROM car WHERE carId = ? ;', [carId], function(error, carRes, fields) {
+			let totPrice = numDays*carRes[0].price;
 			connection.query('INSERT INTO rent (userId, carId, date, returnDate, inCountry, pickupLocation, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?);'
-				, [request.user.userId, carRes[0].carId, rentDate, returnDate, true, pickupLocation, numDays*carRes[0].price], function(error, results, fields) {
+				, [request.user.userId, carRes[0].carId, rentDate, returnDate, true, pickupLocation, totPrice], function(error, results, fields) {
 				console.log("EMAILLLLLLL: " +  request.user.email);
 				if (!error)
 					transporter = nodemailer.createTransport({
@@ -50,7 +51,51 @@ module.exports = function(app, passport, connection, nodemailer){
 						from: 'noreply.fedauto@gmail.com',
 						to: request.user.email,
 						subject: 'Rent - FEDAuto',
-						text: 'Congratulations you just got a car.'
+						text: 'Congratulations you just got a car.',
+						attachments: [{
+							path: '../images/logo-fed.png',
+							cid: 'unique@kreata.ee'
+						}],
+						html: '<style>\n' +
+							'    td{\n' +
+							'        color: #FFFFFF;\n' +
+							'        font-family: Montserrat, sans-serif;\n' +
+							'    }\n' +
+							'</style>\n' +
+							'\n' +
+							'<table style="padding:0 4px 0 4px; background-color: #243447" >\n' +
+							'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
+							'        <td style="text-align: center">\n' +
+							' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
+							'        </td>\n' +
+							'    </tr>\n' +
+							'    <tr>\n' +
+							'        <td style="padding-top:24px;padding-left:10px;padding-right:10px">\n' +
+							'            Hi ' + request.user.firstName + ',\n' +
+							'        </td>\n' +
+							'    </tr>\n' +
+							'    <tr>\n' +
+							'        <td style="padding-top:8px;padding-left:10px;padding-right:10px">\n' +
+							'            This message is to confirm that the FEDAuto account with the username <span style="font-weight:bold"></span> has just rented the following car. Down below you can find an invoice for your transaction.\n' +
+							'            <hr>\n' +
+							'        </td>\n' +
+							'    </tr>\n' +
+							'    <tr class="row">\n' +
+							'        <td class="col-sm-3" style="padding-top:8px;padding-left:10px;padding-right:10px">\n' +
+							'            <p>Car: ' + carRes[0].brand + ' ' + carRes[0].type + '</p>\n' +
+							'            <p>Rent date: ' + rentDate + '</p>\n' +
+							'            <p>Return date: ' + returnDate + '</p>\n' +
+							'            <h3>Total price: $' + totPrice + '.00 </h3>\n' +
+							'        </td>\n' +
+							'    </tr>\n' +
+							'    <tr>\n' +
+							'        <td style="padding: 10px;">\n' +
+							'            FEDAutos Inc., Prishtina, Kosovo\n' +
+							'        </td>\n' +
+							'    </tr>\n' +
+							'\n' +
+							'    </tbody>\n' +
+							'</table>'
 					};
 
 					transporter.sendMail(mailOptions, (err, data) => {
@@ -91,31 +136,25 @@ module.exports = function(app, passport, connection, nodemailer){
 		failureFlash: true
 		}), function (request, response) {
 			request.session.user = request.user.username;
-			// loginJsonResult = [{
-			// 	userId: request.user.userId,
-			// 	firstName: request.user.firstName,
-			// 	lastName: request.user.lastName
-			// }];
-			console.log(request.user.userId);
-			console.log(request.user.firstName);
-			//console.log(loginJsonResult);
 			if (request.body.remember){
 				request.session.cookie.maxAge = 1000 * 6 * 3;
 				
 			}
 			else{
-					request.session.cookie.maxAge = false;
+				request.session.cookie.maxAge = false;
 			}
 			response.redirect('/');
-
-			console.log(request.user.userId);
-	
-		
 	});
 
 	app.get('/loginJava', function(request, response){
-		
-		//response.send(JSON.parse(JSON.stringify(loginJsonResult)));
+		let loginJsonResult = {
+			userId: request.user.userId,
+			firstName:  request.user.firstName,
+			lastName: request.user.lastName,
+			username: request.user.username,
+			email: request.user.email
+		};
+		response.send(JSON.parse(JSON.stringify(loginJsonResult)));
 	});
 
 	app.get('/register', function (request, response) {
@@ -134,29 +173,17 @@ module.exports = function(app, passport, connection, nodemailer){
 			, [firstName, lastName, username, email, hash(password, "test"), age, city], function(error, results, fields) {
 				if (error)
 					console.log("FUCKING ERROR:: " +  error);
-				else 
-				{
+				else {
 					var obj = {firstName:firstName, lastName:lastName, email:email, username:username,age:age,city:city};
 					jsonResult = JSON.parse(JSON.stringify(obj));
 					response.redirect('/login');
-					
 				}
-				
-
 			});
 	
 		app.get('/registerJava', function(request, response) {
-				// if (request.session.loggedin) {
-					response.send(jsonResult);
-				// } else {
-				// 	response.send('Please login to view this page!');
-				// }
-				response.end();
+			response.send(jsonResult);
+			response.end();
 		});
-
-		
-
-
 	});
 
 	app.get('/logout', function (request, response) {
@@ -248,8 +275,3 @@ function changePassword(password, email, connection){
 		});
 	});
 }
-
-// function validateEmail(email) {
-// 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// 	return re.test(String(email).toLowerCase());
-// }

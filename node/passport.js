@@ -54,22 +54,15 @@ module.exports = function (passport) {
                     return done(err);
                 if (rows.length < 1)
                     return done(null, false, req.flash('loginMessage', "No user found"));
-                // if (!bcrypt.compareSync(password, rows[0].password))
-                //     return done(null, false, req.flash('loginMessage', "Wrong password"));
-
                 return done(null, rows[0]);
             });
             function hash(password, salt){
                 // var hash = crypto.createHmac('sha512', salt);
-                var hash = crypto.createHash('sha512');
+                let hash = crypto.createHash('sha512');
                 hash.update(password);
-                var value = hash.digest('hex');
+                let value = hash.digest('hex');
                 return value;
             }
-
-            
         })
-
-
     );
 };

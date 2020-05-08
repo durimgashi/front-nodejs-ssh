@@ -1,26 +1,22 @@
-// let mysql = require('mysql');
-// let dbconfig = require('./database/database');
-let express = require('express');
-let session = require('express-session');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let morgan = require('morgan');
-let app = express();
-let port = process.env.port || 3000;
-let path = require('path');
-let bcrypt = require('bcryptjs');
+const express = require('express');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const app = express();
+const port = process.env.port || 3000;
+const path = require('path');
 
-////----- PJESA E RECOVERY -------/////
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-var mysql = require('mysql');
-var dbconfig = require('./database/database');
-var connection = mysql.createConnection(dbconfig.connection);
+const mysql = require('mysql');
+const dbconfig = require('./database/database');
+const connection = mysql.createConnection(dbconfig.connection);
 
 
-let passport = require('passport');
-let flash = require('connect-flash');
+const passport = require('passport');
+const flash = require('connect-flash');
 
 require('./passport')(passport);
 
