@@ -136,13 +136,6 @@ module.exports = function(app, passport, connection, nodemailer){
 		failureFlash: true
 		}), function (request, response) {
 			request.session.user = request.user.username;
-			if (request.body.remember){
-				request.session.cookie.maxAge = 1000 * 6 * 3;
-				
-			}
-			else{
-				request.session.cookie.maxAge = false;
-			}
 			response.redirect('/');
 	});
 
