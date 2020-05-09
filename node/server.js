@@ -45,3 +45,22 @@ require('./index.js')(app, passport, connection, nodemailer);
 app.listen(3000);
 console.log("Port: " + port);
 
+const exec = require('child_process').exec;
+const child = exec('cd C:/Users/Endrin/Documents/GitHub/front-nodejs-ssh/chat & node chatServer.js',
+    (error, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+});
+
+const execute = require('child_process').exec;
+const childvideo = exec('cd C:/Users/Endrin/Documents/GitHub/front-nodejs-ssh/videoChat & node server.js',
+    (error, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+});
