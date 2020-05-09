@@ -25,7 +25,7 @@
         <div class="card">
             <a href="/"><img src="../images/logo-fed.png" style="width: 100%"></a>
             <div class="card-body">
-                <form class="form-horizontal" method="post" action="/register">
+                <form class="form-horizontal" method="post" action="/registerPost">
                     <div class="form-group">
                         <label for="name" class="control-label">First Name</label>
                         <input type="text" class="form-control" name="firstName" id="firstname" placeholder="Enter your First Name" />
@@ -64,6 +64,9 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                         <p style="color: #FFFFFF; margin-top: 10px">Already a member? <a href="/login">Login</a></p>
+                        <% if (regMessage) {%>
+                            <p style="color: #C51F5D; width: fit-content"><%= 'Username or password taken' %></p>
+                        <% }%>
                     </div>
                 </form>
 

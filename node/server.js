@@ -14,7 +14,6 @@ const mysql = require('mysql');
 const dbconfig = require('./database/database');
 const connection = mysql.createConnection(dbconfig.connection);
 
-
 const passport = require('passport');
 const flash = require('connect-flash');
 
@@ -35,7 +34,6 @@ app.use(session({
 }));
 
 app.use(express.static('..'))
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -46,7 +44,7 @@ app.listen(3000);
 console.log("Port: " + port);
 
 const exec = require('child_process').exec;
-const child = exec('cd C:/Users/Endrin/Documents/GitHub/front-nodejs-ssh/chat & node chatServer.js',
+const child = exec('cd chat & node chatServer.js',
     (error, stdout, stderr) => {
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
@@ -55,8 +53,7 @@ const child = exec('cd C:/Users/Endrin/Documents/GitHub/front-nodejs-ssh/chat & 
         }
 });
 
-const execute = require('child_process').exec;
-const childvideo = exec('cd C:/Users/Endrin/Documents/GitHub/front-nodejs-ssh/videoChat & node server.js',
+const childvideo = exec('cd videoChat & node server.js',
     (error, stdout, stderr) => {
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);

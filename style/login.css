@@ -61,3 +61,16 @@ button{
 button:hover{
   background-color: #00acee;
 }
+h4.modal-title{
+  color: #FFFFFF;
+}
+button.modal-btn{
+  color: #FFFFFF;
+  background-color: #00acee;
+  border-radius: 10px;
+  border: none;
+  width: 30%;
+}
+i{
+  color: #FFFFFF;
+}
