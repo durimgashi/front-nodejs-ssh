@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rent Cars</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" type="text/css" href="../style/main.css">
+    <link rel="stylesheet" type="text/css" href="../style/profile.css">
+</head>
+<body>
+<%- include('header.ejs') %>
+<div class="container emp-profile">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-head">
+                <h3><%= user.firstName%> <%= user.lastName%></h3>
+                <h5><%= user.email%></h5>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>User Id</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.userId %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>First name</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.firstName %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Last name</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.lastName %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.email %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Username</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.username %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Age</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.age %></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>City</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p><%= user.city %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 profile-rents">
+              <%if(rentData.length > 0){ %>
+                <h1 style="margin-top: 0px">Your rents</h1>
+                <% for(var i = 0; i < rentData.length; i++){ %>
+                <div class="row" style=" background-color: #243447">
+                    <img src="<%= rentData[i].picturePath %>" alt="">
+                    <div class="colz col-sm-2"><p><%= rentData[i].brand %></div>
+                    <div class="colz col-sm-4"><p><%= rentData[i].date %></div>
+                    <a href="/deleteRent/<%= rentData[i].carId %>" class="btn btn-primary">DELETE</a>
+                </div>
+                <%}%>
+            <% } else { %>
+                    <h1>You have not rented any cars yet.</h1>
+            <%}%>
+        </div>
+    </div>
+</div>
+</body>
+</html>

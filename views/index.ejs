@@ -23,25 +23,25 @@
 			background-repeat: no-repeat;
 			background-color: #243447;
 		}
-		div.item:hover{
-			opacity: 0.7;
-			transition: 0.4s;
-			cursor: pointer;
-		}
+		/*div.item:hover{*/
+		/*	opacity: 0.7;*/
+		/*	transition: 0.4s;*/
+		/*	cursor: pointer;*/
+		/*}*/
 
-		.carousel-text{
-			color: #FFFFFF !important;
-			opacity: 1;
-			text-shadow: 2px 2px 4px #000000;
-		}
+		/*.carousel-text{*/
+		/*	color: #FFFFFF !important;*/
+		/*	opacity: 1;*/
+		/*	text-shadow: 2px 2px 4px #000000;*/
+		/*}*/
 		div.container-fluid{
 			opacity: 0;
 		}
-		div.item:hover div.container-fluid{
-			opacity: 1;
-			/*transition: 0.4s;*/
-			transition:opacity 0.4s;
-		}
+		/*div.item:hover div.container-fluid{*/
+		/*	opacity: 1;*/
+		/*	!*transition: 0.4s;*!*/
+		/*	transition:opacity 0.4s;*/
+		/*}*/
 
 	</style>
 
@@ -57,17 +57,27 @@
 </div>
 
 
+<!--opacity: 0.7;-->
+<!--transition: 0.4s;-->
+
+<script>
+	$(document).ready(function(){
+		$(".item").mouseover(function(){
+			$("div.item").css({"opacity" :  "0.6", "transition" : "1s"});
+			$("div.container-fluid").css({"opacity" :  "1", "transition" : "1s"});
+
+		});
+		$(".item").mouseout(function(){
+			$("div.item").css({"opacity" :  "1", "transition" : "1s"});
+			$("div.container-fluid").css({"opacity" :  "0", "transition" : "1s"});
+		});
+	});
+</script>
+
 <div class="container" style="width: 100%">
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			<li data-target="#myCarousel" data-slide-to="1"></li>
-			<li data-target="#myCarousel" data-slide-to="2"></li>
-		</ol>
-
 		<div class="carousel-inner">
-			<div class="item active" style="background-image: url('../images/tesla.jpg')">
+			<div class="item active" style="background-image: url('../images/audi-a7.jpg')">
 				<div id="about" class="container-fluid">
 					<h2 class="carousel-text">About Company Page</h2><br>
 					<h4 class="carousel-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
@@ -75,7 +85,7 @@
 				</div>
 			</div>
 
-			<div class="item" style="background-image: url('../images/golf7.jpg')">
+			<div class="item" style="background-image: url('../images/mercedes.jpg')">
 				<div id="about" class="container-fluid">
 					<h2 class="carousel-text">About Company Page</h2><br>
 					<h4 class="carousel-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
@@ -83,7 +93,7 @@
 				</div>
 			</div>
 
-			<div class="item" style="background-image: url('../images/cybertruck.jpg')">
+			<div class="item" style="background-image: url('../images/tesla-model-s.jpg')">
 				<div id="about" class="container-fluid">
 					<h2 class="carousel-text">About Company Page</h2><br>
 					<h4 class="carousel-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
@@ -111,21 +121,27 @@
 	<h4>What we offer</h4>
 	<br>
 	<div class="row">
-		<div class="col-sm-4">
-		  <i class="fa fa-car" style="font-size:60px;"></i>
-		  <h4>CAR RENTING</h4>
-		  <p>Choose the car that suits your needs..</p>
-		</div>
-		<div class="col-sm-4">
-		  <a href="http://192.168.0.48:3002"><i class="fas fa-video" style="font-size:60px;"></i></a>
-		  <a href="http://192.168.0.48:3002"><h4>VIDEO CHAT</h4></a>
-		  <a href="http://192.168.0.48:3002"><p>Arrange a video call with our staff..</p>></a>
-		</div>
-		<div class="col-sm-4">
-		  <a href="http://192.168.0.48:3001"><i class="far fa-comments" style="font-size:60px;"></i></a>
-		  <a href="http://192.168.0.48:3001"><h4>CHAT</h4></a>
-		  <a href="http://192.168.0.48:3001"><p>Write to our staff..</p></a>
-		</div>
+		<a href="/cars">
+			<div class="col-sm-4">
+				<i class="fa fa-car" style="font-size:60px;"></i>
+				<h4>CAR RENTING</h4>
+				<p>Choose the car that suits your needs..</p>
+			</div>
+		</a>
+		<a href="http://192.168.0.48:3002">
+			<div class="col-sm-4">
+				<i class="fas fa-video" style="font-size:60px;"></i>
+				<h4>VIDEO CHAT</h4>
+				<p>Arrange a video call with our staff..</p>>
+			</div>
+		</a>
+		<a href="/chat">
+			<div class="col-sm-4">
+				<i class="far fa-comments" style="font-size:60px;"></i>
+				<h4>CHAT</h4>
+				<p>Write to our staff..</p>
+			</div>
+		</a>
 	</div>
 </div>
 

@@ -24,7 +24,8 @@ create table car(
     numDoor INTEGER not null,
     insurance varchar(30) not null,
     description varchar(512) not null,
-    picturePath varchar(256)
+    picturePath varchar(256),
+    status BOOL
 );
 
 create table rent(

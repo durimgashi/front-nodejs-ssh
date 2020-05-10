@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password" class="cols-sm-2 control-label">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
+                        <input type="password" class="form-control" name="password" id="password" placeholder="At least 8 characters long" pattern="[a-z]{8,16}"/>
                     </div>
                     <div class="form-group">
                         <label for="age" class="cols-sm-2 control-label">Age</label>
@@ -67,9 +67,9 @@
                         <% if (regMessage) {%>
                             <p style="color: #C51F5D; width: fit-content"><%= 'Username or password taken' %></p>
                         <% }%>
+
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

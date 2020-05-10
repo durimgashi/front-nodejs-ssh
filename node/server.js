@@ -63,7 +63,7 @@ server.listen(3000);
 
 console.log("Port: " + port);
 
-// const exec = require('child_process').exec;
+const exec = require('child_process').exec;
 // const child = exec('cd chat & node chatServer.js',
 //     (error, stdout, stderr) => {
 //         console.log(`stdout: ${stdout}`);
@@ -73,11 +73,11 @@ console.log("Port: " + port);
 //         }
 // });
 //
-// const childvideo = exec('cd videoChat & node server.js',
-//     (error, stdout, stderr) => {
-//         console.log(`stdout: ${stdout}`);
-//         console.log(`stderr: ${stderr}`);
-//         if (error !== null) {
-//             console.log(`exec error: ${error}`);
-//         }
-// });
+const childvideo = exec('cd videoChat & node server.js',
+    (error, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+});

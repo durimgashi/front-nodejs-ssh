@@ -1,5 +1,21 @@
 const crypto = require('crypto');
 module.exports = function(app, passport, connection, nodemailer){
+	app.get('/profile', function (request, response) {
+		connection.query('SELECT * FROM rent r, car c WHERE r.carId = c.carId and r.userId = ?', [request.user.userId], function(error, results, fields) {
+			response.render('profile.ejs', { user: request.user, rentData: results });
+			rentRes = JSON.parse(JSON.stringify(results));
+		});
+	});
+
+	app.use('/deleteRent/:carId', function (request, response) {
+		connection.query('DELETE FROM rent WHERE carId = ?', [request.params.carId], function(error, results, fields) {
+			connection.query('UPDATE car SET status = 1 WHERE carId = ?',[request.params.carId]);
+			// response.render('profile.ejs', { user: request.user, rentData: results });
+			response.redirect('/profile');
+		});
+	});
+
+
 	app.get('/', function (request, response) {
 		response.render('index.ejs', { user: request.user });
 	});
@@ -47,6 +63,8 @@ module.exports = function(app, passport, connection, nodemailer){
 						}
 					});
 
+					connection.query('UPDATE car SET status = 0 WHERE carId = ?', [carRes[0].carId]);
+
 					let mailOptions = {
 						from: 'noreply.fedauto@gmail.com',
 						to: request.user.email,
@@ -76,7 +94,7 @@ module.exports = function(app, passport, connection, nodemailer){
 							'    </tr>\n' +
 							'    <tr>\n' +
 							'        <td style="padding-top:8px;padding-left:10px;padding-right:10px">\n' +
-							'            This message is to confirm that the FEDAuto account with the username <span style="font-weight:bold"></span> has just rented the following car. Down below you can find an invoice for your transaction.\n' +
+							'            This message is to confirm that the FEDAuto account with the username <span style="font-weight:bold">' + request.user.username + '</span> has just rented the following car. Down below you can find an invoice for your transaction.\n' +
 							'            <hr>\n' +
 							'        </td>\n' +
 							'    </tr>\n' +
@@ -168,7 +186,7 @@ module.exports = function(app, passport, connection, nodemailer){
 			if (results.length > 0){
 				response.render('register', {regMessage: true});
 				response.end();
-			} else {
+			} else  {
 				connection.query('INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)'
 					, [firstName, lastName, username, email, hash(password, "test"), age, city], function(error, results, fields) {
 						if (error)
