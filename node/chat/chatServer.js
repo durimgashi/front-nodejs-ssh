@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-const botName = 'ChatCord Bot';
+const botName = 'Chat Bot';
 
 // Run when client connects
 io.on('connection', socket => {
@@ -29,7 +29,7 @@ io.on('connection', socket => {
     socket.join(user.room);
 
     // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
+    socket.emit('message', formatMessage(botName, 'Welcome to FEDAuto Chat!'));
 
     // Broadcast when a user connects
     socket.broadcast

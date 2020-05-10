@@ -247,7 +247,7 @@ module.exports = function(app, passport, connection, nodemailer){
 			'    </tr>\n' +
 			'    <tr>\n' +
 			'        <td style="padding-top:24px;padding-left:10px;padding-right:10px">\n' +
-			'            Hi, ' + ',\n' +
+			'            Hi, ' + '\n' +
 			'        </td>\n' +
 			'    </tr>\n' +
 			'    <tr>\n' +
