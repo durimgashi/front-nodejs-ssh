@@ -60,14 +60,14 @@ module.exports = function(app, passport, connection, nodemailer){
 							'<style>\n' +
 							'    td{\n' +
 							'        color: #FFFFFF;\n' +
-							'        font-family: Montserrat, sans-serif;\n' +
+							'        font-family: Roboto, sans-serif;\n' +
 							'    }\n' + 
 							'	.content{\n'+
 							'    color: white;\n' +
 							'    }\n'+
 							'</style>\n' +
 							'\n' +
-							'<table id="content" style="padding:0 4px 0 4px; background-color: #243447"; >\n' +
+							'<table id="content" style="padding:0 4px 0 4px; background-color: #FFFFFF"; >\n' +
 							'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
 							'        <td style="text-align: center; color: white">\n' +
 							' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
@@ -196,7 +196,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	});
-	var inLineCss = require('nodemailer-juice');
+	//var inLineCss = require('nodemailer-juice');
 	let recoveryEmail;
 	app.use('/reset', function (request, response) {
 		response.render('reset.ejs', { user: request.user });
