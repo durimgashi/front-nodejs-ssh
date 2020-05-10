@@ -74,16 +74,20 @@ module.exports = function(app, passport, connection, nodemailer){
 							path: '../images/logo-fed.png',
 							cid: 'unique@kreata.ee'
 						}],
-						html: '<style>\n' +
+						html: 
+							'<style>\n' +
 							'    td{\n' +
 							'        color: #FFFFFF;\n' +
-							'        font-family: Montserrat, sans-serif;\n' +
-							'    }\n' +
+							'        font-family: Roboto, sans-serif;\n' +
+							'    }\n' + 
+							'	.content{\n'+
+							'    color: white;\n' +
+							'    }\n'+
 							'</style>\n' +
 							'\n' +
-							'<table style="padding:0 4px 0 4px; background-color: #243447" >\n' +
+							'<table id="content" style="padding:0 4px 0 4px; background-color: #FFFFFF"; >\n' +
 							'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
-							'        <td style="text-align: center">\n' +
+							'        <td style="text-align: center; color: white">\n' +
 							' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
 							'        </td>\n' +
 							'    </tr>\n' +
@@ -210,7 +214,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	});
-
+	//var inLineCss = require('nodemailer-juice');
 	let recoveryEmail;
 	app.use('/reset', function (request, response) {
 		response.render('reset.ejs', { user: request.user });
@@ -238,9 +242,53 @@ module.exports = function(app, passport, connection, nodemailer){
 			from: 'noreply.fedauto@gmail.com', // TODO: email sender
 			to: recoveryEmail, // TODO: email receiver
 			subject: 'Password Recovery - FEDAuto',
-			text: 'Your password recovery code is: ' + randomCode
+			attachments: [{
+				path: '../images/logo-fed.png',
+				cid: 'unique@kreata.ee'
+			}],
+			html:
+			'<style>\n' +
+			'    td{\n' +
+			'        color: #FFFFFF;\n' +
+			'        font-family: Roboto, sans-serif;\n' +
+			'    }\n' + 
+			'	.content{\n'+
+			'    color: white;\n' +
+			'    }\n'+
+			'</style>\n' +
+			'\n' +
+			'<table id="content" style="padding:0 4px 0 4px; background-color: #FFFFFF"; >\n' +
+			'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
+			'        <td style="text-align: center; color: white">\n' +
+			' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
+			'        </td>\n' +
+			'    </tr>\n' +
+			'    <tr>\n' +
+			'        <td style="padding-top:24px;padding-left:10px;padding-right:10px">\n' +
+			'            Hi, ' + '\n' +
+			'        </td>\n' +
+			'    </tr>\n' +
+			'    <tr>\n' +
+			'        <td style="padding-top:8px;padding-left:10px;padding-right:10px">\n' +
+			'            This message is to confirm that you have requested to reset the password. Please find below the recovery code.\n' +
+			'            <hr>\n' +
+			'        </td>\n' +
+			'    </tr>\n' +
+			'    <tr class="row">\n' +
+			'        <td class="col-sm-3" style="padding-top:8px;padding-left:10px;padding-right:10px">\n' +
+			'            <p style="font-size: 20px">Recovery code: ' + randomCode + '</p>\n' +
+			'        </td>\n' +
+			'    </tr>\n' +
+			'    <tr>\n' +
+			'        <td style="padding: 10px;">\n' +
+			'            FEDAutos Inc., Prishtina, Kosovo\n' +
+			'        </td>\n' +
+			'    </tr>\n' +
+			'\n' +
+			'    </tbody>\n' +
+			'</table>'
 		};
-
+		
 		transporter.sendMail(mailOptions, (err, data) => {
 			if (err) {
 				console.log('Error occurs', err);
