@@ -56,16 +56,20 @@ module.exports = function(app, passport, connection, nodemailer){
 							path: '../images/logo-fed.png',
 							cid: 'unique@kreata.ee'
 						}],
-						html: '<style>\n' +
+						html: 
+							'<style>\n' +
 							'    td{\n' +
 							'        color: #FFFFFF;\n' +
 							'        font-family: Montserrat, sans-serif;\n' +
-							'    }\n' +
+							'    }\n' + 
+							'	.content{\n'+
+							'    color: white;\n' +
+							'    }\n'+
 							'</style>\n' +
 							'\n' +
-							'<table style="padding:0 4px 0 4px; background-color: #243447" >\n' +
+							'<table id="content" style="padding:0 4px 0 4px; background-color: #243447"; >\n' +
 							'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
-							'        <td style="text-align: center">\n' +
+							'        <td style="text-align: center; color: white">\n' +
 							' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
 							'        </td>\n' +
 							'    </tr>\n' +
@@ -192,7 +196,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	});
-
+	var inLineCss = require('nodemailer-juice');
 	let recoveryEmail;
 	app.use('/reset', function (request, response) {
 		response.render('reset.ejs', { user: request.user });
@@ -222,7 +226,7 @@ module.exports = function(app, passport, connection, nodemailer){
 			subject: 'Password Recovery - FEDAuto',
 			text: 'Your password recovery code is: ' + randomCode
 		};
-
+		transporter.use('compile', inLineCss());
 		transporter.sendMail(mailOptions, (err, data) => {
 			if (err) {
 				console.log('Error occurs', err);
