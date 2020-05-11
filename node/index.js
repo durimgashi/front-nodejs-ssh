@@ -10,7 +10,6 @@ module.exports = function(app, passport, connection, nodemailer){
 	app.use('/deleteRent/:carId', function (request, response) {
 		connection.query('DELETE FROM rent WHERE carId = ?', [request.params.carId], function(error, results, fields) {
 			connection.query('UPDATE car SET status = 1 WHERE carId = ?',[request.params.carId]);
-			// response.render('profile.ejs', { user: request.user, rentData: results });
 			response.redirect('/profile');
 		});
 	});
@@ -186,7 +185,6 @@ module.exports = function(app, passport, connection, nodemailer){
 		let city = request.body.city;
 
 		connection.query('SELECT * FROM user WHERE username = ? OR email = ?', [username, email], function (error, results, fields) {
-
 			if (results.length > 0){
 				response.render('register', {regMessage: true});
 				response.end();
@@ -214,7 +212,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	});
-	//var inLineCss = require('nodemailer-juice');
+
 	let recoveryEmail;
 	app.use('/reset', function (request, response) {
 		response.render('reset.ejs', { user: request.user });

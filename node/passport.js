@@ -19,28 +19,6 @@ module.exports = function (passport) {
         });
     });
 
-    // passport.use(
-    //     'local-signup',
-    //     new LocalStrategy({
-    //         firstNameField: "firstName",
-    //         lastNameField: "lastName",
-    //         emailField: "email",
-    //         usernameField: "username",
-    //         passwordField: "password",
-    //         ageField: "age",
-    //         cityField: "city",
-    //         passReqToCallback: true
-    //     },
-    //     function (req, firstName, lastName, username, email, password, age, city, done) {
-    //         let registerQuery = "INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    //         connection.query(registerQuery, [firstName, lastName, username, email, password, age, city], function (err, row) {
-    //             if (err)
-    //                 return done(err);
-    //         });
-    //
-    //     })
-    // );
-
     passport.use(
         'local-login',
         new LocalStrategy({
