@@ -85,8 +85,8 @@ module.exports = function(app, passport, connection, nodemailer){
 							'    }\n'+
 							'</style>\n' +
 							'\n' +
-							'<table id="content" style="padding:0 4px 0 4px; background-color: #FFFFFF"; >\n' +
-							'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
+							'<table id="content" style="padding:0 4px 0 4px; background-color: #141D26;" >\n' +
+							'    <tbody><tr style="background-color:#243447;height:88px">\n' +
 							'        <td style="text-align: center; color: white">\n' +
 							' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
 							'        </td>\n' +
