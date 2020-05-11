@@ -5212,7 +5212,7 @@ if (util && util.inspect && util.inspect.custom) {
 var pna = require('process-nextick-args');
 /*</replacement>*/
 
-// undocumented cb() API, needed for core, not for public API
+// undocumented cb() API, needed for core, not for publicVideoChat API
 function destroy(err, cb) {
   var _this = this;
 
@@ -6514,7 +6514,7 @@ function useColors() {
 /**
  * Colorize log arguments if enabled.
  *
- * @api public
+ * @api publicVideoChat
  */
 
 function formatArgs(args) {
@@ -6556,7 +6556,7 @@ function formatArgs(args) {
  * Invokes `console.log()` when available.
  * No-op when `console.log` is not a "function".
  *
- * @api public
+ * @api publicVideoChat
  */
 function log(...args) {
 	// This hackery is required for IE8/9, where
@@ -6709,7 +6709,7 @@ function setup(env) {
 	*
 	* @param {String} namespace
 	* @return {Function}
-	* @api public
+	* @api publicVideoChat
 	*/
 	function createDebug(namespace) {
 		let prevTime;
@@ -6803,7 +6803,7 @@ function setup(env) {
 	* separated by a colon and wildcards.
 	*
 	* @param {String} namespaces
-	* @api public
+	* @api publicVideoChat
 	*/
 	function enable(namespaces) {
 		createDebug.save(namespaces);
@@ -6840,7 +6840,7 @@ function setup(env) {
 	* Disable debug output.
 	*
 	* @return {String} namespaces
-	* @api public
+	* @api publicVideoChat
 	*/
 	function disable() {
 		const namespaces = [
@@ -6856,7 +6856,7 @@ function setup(env) {
 	*
 	* @param {String} name
 	* @return {Boolean}
-	* @api public
+	* @api publicVideoChat
 	*/
 	function enabled(name) {
 		if (name[name.length - 1] === '*') {
@@ -6938,7 +6938,7 @@ var y = d * 365.25;
  * @param {Object} [options]
  * @throws {Error} throw an error if val is not a non-empty string or a number
  * @return {String|Number}
- * @api public
+ * @api publicVideoChat
  */
 
 module.exports = function(val, options) {
@@ -7479,7 +7479,7 @@ module.exports = deprecate;
  * @param {Function} fn - the function to deprecate
  * @param {String} msg - the string to print to the console when `fn` is invoked
  * @returns {Function} a new "deprecated" version of `fn`
- * @api public
+ * @api publicVideoChat
  */
 
 function deprecate (fn, msg) {

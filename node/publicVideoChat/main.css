@@ -1,5 +1,11 @@
+body{
+    background-color: #141D26;
+}
+div.row{
+    background-color: #243447;
+}
 video {
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
 }
 
 .select {

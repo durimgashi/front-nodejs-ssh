@@ -56,28 +56,7 @@ app.use(flash());
 
 require('./index.js')(app, passport, connection, nodemailer);
 require('./textChat.js')(io, app, express, path, userJoin, getCurrentUser, userLeave, getRoomUsers, formatMessage());
-// require('./public/js/main.js')(io, app, express, path, document,  userJoin, getCurrentUser, userLeave, getRoomUsers);
+require('./videoChat.js')(io, app, express, path);
 
-// app.listen(3000);
-server.listen(3000);
-
-console.log("Port: " + port);
-
-const exec = require('child_process').exec;
-// const child = exec('cd chat & node chatServer.js',
-//     (error, stdout, stderr) => {
-//         console.log(`stdout: ${stdout}`);
-//         console.log(`stderr: ${stderr}`);
-//         if (error !== null) {
-//             console.log(`exec error: ${error}`);
-//         }
-// });
-//
-const childvideo = exec('cd videoChat & node server.js',
-    (error, stdout, stderr) => {
-        console.log(`stdout: ${stdout}`);
-        console.log(`stderr: ${stderr}`);
-        if (error !== null) {
-            console.log(`exec error: ${error}`);
-        }
-});
+server.listen(port);
+console.log("Server running on port: " + port);
