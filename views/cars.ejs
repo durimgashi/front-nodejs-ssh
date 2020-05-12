@@ -31,10 +31,10 @@
             <div class="card h-100">
                 <% if (data[i].status == 1){%>
                     <a href="/cars/<%= data[i].carId %>">
-                        <img class="card-img-top" src="<%= data[i].picturePath %>" alt="">
+                        <img class="card-img-top" src="../images/<%= data[i].picturePath %>" alt="">
                     </a>
                 <%}else{%>
-                    <img class="card-img-top" src="<%= data[i].picturePath %>" alt="" style="opacity: 0.3;">
+                    <img class="card-img-top" src="../images/<%= data[i].picturePath %>" alt="" style="opacity: 0.3;">
                     <h3 style="position: absolute;top: -8px;left: 26px; color: #000;text-shadow: 2px 2px 8px red">Unavaliable</h3>
                 <%}%>
                 <div class="card-body">

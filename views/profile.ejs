@@ -92,7 +92,7 @@
                 <h1 style="margin-top: 0px">Your rents</h1>
                 <% for(var i = 0; i < rentData.length; i++){ %>
                 <div class="row" style=" background-color: #243447">
-                    <img src="<%= rentData[i].picturePath %>" alt="">
+                    <img src="../images/<%= rentData[i].picturePath %>" alt="">
                     <div class="colz col-sm-2"><p><%= rentData[i].brand %></div>
                     <div class="colz col-sm-4"><p><%= rentData[i].date %></div>
                     <a href="/deleteRent/<%= rentData[i].carId %>" class="btn btn-primary">DELETE</a>

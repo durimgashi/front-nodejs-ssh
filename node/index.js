@@ -25,7 +25,7 @@ module.exports = function(app, passport, connection, nodemailer){
 		});
 	});
 
-	app.get('/carsjava', function(request, response) {
+	app.get('/carsJava', function(request, response) {
 		connection.query('SELECT * FROM car', function(error, carResults, fields) {
 			let json = JSON.parse(JSON.stringify(carResults));
 			response.send(json);
@@ -176,34 +176,39 @@ module.exports = function(app, passport, connection, nodemailer){
 	});
 
 	app.post('/registerPost', function(request, response) {
-		let firstName = request.body.firstName;
-		let lastName = request.body.lastName;
-		let email = request.body.email;
-		let username = request.body.username;
-		let password = request.body.password;
-		let age = request.body.age;
-		let city = request.body.city;
+		// let firstName = request.body.firstName;
+		// let lastName = request.body.lastName;
+		// let email = request.body.email;
+		// let username = request.body.username;
+		// let password = request.body.password;
+		// let age = request.body.age;
+		// let city = request.body.city;
 
-		connection.query('SELECT * FROM user WHERE username = ? OR email = ?', [username, email], function (error, results, fields) {
+		let registeredUser = JSON.parse(JSON.stringify(request.body));
+
+		console.log(registeredUser);
+
+
+		connection.query('SELECT * FROM user WHERE username = ? OR email = ?', [registeredUser.username, registeredUser.email], function (error, results, fields) {
 			if (results.length > 0){
 				response.render('register', {regMessage: true});
 				response.end();
 			} else  {
 				connection.query('INSERT INTO user (firstName, lastName, username, email, password, age, city ) VALUES (?, ?, ?, ?, ?, ?, ?)'
-					, [firstName, lastName, username, email, hash(password, "test"), age, city], function(error, results, fields) {
+					, [registeredUser.firstName,registeredUser.lastName, registeredUser.username, registeredUser.email, hash(registeredUser.password, "test"), registeredUser.age, registeredUser.city], function(error, results, fields) {
 						if (error)
 							console.log("FUCKING ERROR:: " +  error);
 						else {
-							var obj = {firstName:firstName, lastName:lastName, email:email, username:username,age:age,city:city};
-							jsonResult = JSON.parse(JSON.stringify(obj));
+							// var obj = {firstName:firstName, lastName:lastName, email:email, username:username,age:age,city:city};
+							// jsonResult = JSON.parse(JSON.stringify(obj));
 							response.redirect('/login');
 						}
 					});
 			}
 		});
-	
+
 		app.get('/registerJava', function(request, response) {
-			response.send(jsonResult);
+			response.send(registeredUser);
 			response.end();
 		});
 	});
