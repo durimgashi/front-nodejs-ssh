@@ -1,5 +1,12 @@
 const crypto = require('crypto');
 module.exports = function(app, passport, connection, nodemailer){
+
+	app.get('/users',function (request, response) {
+		connection.query('SELECT * FROM user',function(error, results, fields) {
+			response.send(JSON.parse(JSON.stringify(results)));
+		});
+	});
+
 	app.get('/profile', function (request, response) {
 		connection.query('SELECT * FROM rent r, car c WHERE r.carId = c.carId and r.userId = ?', [request.user.userId], function(error, results, fields) {
 			response.render('profile.ejs', { user: request.user, rentData: results });
@@ -13,7 +20,6 @@ module.exports = function(app, passport, connection, nodemailer){
 			response.redirect('/profile');
 		});
 	});
-
 
 	app.get('/', function (request, response) {
 		response.render('index.ejs', { user: request.user });
@@ -106,7 +112,7 @@ module.exports = function(app, passport, connection, nodemailer){
 							'            <p>Car: ' + carRes[0].brand + ' ' + carRes[0].type + '</p>\n' +
 							'            <p>Rent date: ' + rentDate + '</p>\n' +
 							'            <p>Return date: ' + returnDate + '</p>\n' +
-							'            <h3>Total price: $' + totPrice + '.00 </h3>\n' +
+							'            <h3>Total price: $' + totPrice + ' </h3>\n' +
 							'        </td>\n' +
 							'    </tr>\n' +
 							'    <tr>\n' +
@@ -130,8 +136,8 @@ module.exports = function(app, passport, connection, nodemailer){
 		});
 	});
 
-	app.get('/rentjava', function (request, response) {
-		connection.query('SELECT * FROM rent ;', function(error, rentResult, fields) {
+	app.get('/rentjava/:userId', function (request, response) {
+		connection.query('SELECT * FROM car WHERE carId IN (SELECT carId FROM rent WHERE userId = ?); ',[request.params.userId] ,function(error, rentResult, fields) {
 			let jsonRent = JSON.parse(JSON.stringify(rentResult));
 			response.send(jsonRent);
 		});
@@ -149,7 +155,6 @@ module.exports = function(app, passport, connection, nodemailer){
 		request.logout();
 		response.redirect('/');
 	})
-	var loginJsonResult;
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/cars',
 		failureRedirect: '/login',
@@ -176,19 +181,7 @@ module.exports = function(app, passport, connection, nodemailer){
 	});
 
 	app.post('/registerPost', function(request, response) {
-		// let firstName = request.body.firstName;
-		// let lastName = request.body.lastName;
-		// let email = request.body.email;
-		// let username = request.body.username;
-		// let password = request.body.password;
-		// let age = request.body.age;
-		// let city = request.body.city;
-
 		let registeredUser = JSON.parse(JSON.stringify(request.body));
-
-		console.log(registeredUser);
-
-
 		connection.query('SELECT * FROM user WHERE username = ? OR email = ?', [registeredUser.username, registeredUser.email], function (error, results, fields) {
 			if (results.length > 0){
 				response.render('register', {regMessage: true});
@@ -199,8 +192,6 @@ module.exports = function(app, passport, connection, nodemailer){
 						if (error)
 							console.log("FUCKING ERROR:: " +  error);
 						else {
-							// var obj = {firstName:firstName, lastName:lastName, email:email, username:username,age:age,city:city};
-							// jsonResult = JSON.parse(JSON.stringify(obj));
 							response.redirect('/login');
 						}
 					});
@@ -260,8 +251,8 @@ module.exports = function(app, passport, connection, nodemailer){
 			'    }\n'+
 			'</style>\n' +
 			'\n' +
-			'<table id="content" style="padding:0 4px 0 4px; background-color: #FFFFFF"; >\n' +
-			'    <tbody><tr style="background-color:#141D26;height:88px">\n' +
+			'<table id="content" style="padding:0 4px 0 4px; background-color: #141D26"; >\n' +
+			'    <tbody><tr style="background-color:#243447;height:88px">\n' +
 			'        <td style="text-align: center; color: white">\n' +
 			' 			<img style="width: 25%" src="cid:unique@kreata.ee"/>' +
 			'        </td>\n' +
