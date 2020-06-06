@@ -209,3 +209,17 @@ input, select{
 button.btn{
     border-radius: 0px 10px 10px 0px;
 }
+
+
+img.logo-chat{
+    width: 10%;
+}
+
+@media screen and (max-width: 480px){
+    img.logo-chat{
+        width: 40%;
+    }
+    #msg{
+        height: auto;
+    }
+}

@@ -17,6 +17,7 @@
 }
 .column-two{
 	background-color: #141D26;
+	padding-top: 1px;
 }
 .jumbotron{
 	background-color: transparent;
@@ -63,4 +64,14 @@ button:hover{
 }
 .form-group{
 	margin-bottom: 5px;
+}
+
+@media screen and (max-width: 480px){
+	.column-one{
+		display: none;
+	}
+	.column-two{
+		padding-left: 0;
+		padding-right: 0;
+	}
 }

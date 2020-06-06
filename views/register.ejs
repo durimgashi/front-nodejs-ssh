@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="../style/register.css">
 </head>
 <body style="height: 100%">
-<div class="row">
+<div class="row" style="margin-left: 0">
 	<div class="col-sm-8 cols column-one">
 		<div class="text-cont">
 			<h1 class="create-acc-h1">Create an account</h1>
@@ -65,7 +65,7 @@
                         <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                         <p style="color: #FFFFFF; margin-top: 10px">Already a member? <a href="/login">Login</a></p>
                         <% if (regMessage) {%>
-                            <p style="color: #C51F5D; width: fit-content"><%= 'Username or password taken' %></p>
+                            <p style="color: #C51F5D; width: 30px"><%= 'Username or password taken' %></p>
                         <% }%>
 
                     </div>

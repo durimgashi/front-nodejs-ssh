@@ -33,3 +33,14 @@ p.card-text{
     color: #ffffff;
 }
 
+@media screen and (max-width: 768px) {
+    div.row{
+        margin: 0;
+    }
+
+    div.jumbotron{
+        top: -10px;
+    }
+
+
+}

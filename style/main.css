@@ -84,15 +84,8 @@ footer{
 	background-color: #243447;
 }
 
-/*div.row{*/
-/*	width: 80%;*/
-/*	margin: 0 auto;*/
-/*	height: 220px;*/
-/*}*/
-/*div.col-sm-4{*/
-/*	height: 100%;*/
-/*	padding: 40px;*/
-/*}*/
-/*div.col-sm-4:hover{*/
-/*	background-color: #243447;*/
-/*}*/
+@media screen and (max-width: 768px){
+	.jumbotron{
+		top: -10px;
+	}
+}
